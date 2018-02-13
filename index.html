@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html>
+	<html xmlns="http://www.w3.org/1999/xhtml">
+		<title></title>
+		<meta name='viewport' content='width=400, user-scalable=no' />
+		<link rel="stylesheet" href="Scripts/jquery.mobile-1.4.3.min.css" />
+		<link rel="stylesheet" href="css/mindscapes.min.css" />
+		<script src="cordova.js"></script>
+		
+		<script src="Scripts/jquery-1.8.1.min.js"></script>
+		<script src="Scripts/jquery.mobile-1.4.3.min.js"></script>
+		<script src="Scripts/jquery.cycle.all.js"></script>
+
+		
+		<script type="text/javascript">
+			$(function () {
+
+				// Register the cycle between the pages.
+				$('#mainContainer').cycle({
+					fx: 'fade',
+					timeout:0,
+					startingSlide: 0,
+					speed: 300
+				});
+
+
+				// Register the main-menu's buttons.
+				$("#iframePageBtn").click(function() {
+					CyclePage("iframePage");
+				});
+
+				$("#aboutPageBtn").click(function () {
+					CyclePage("aboutPage");
+				});
+
+				// Register the back button.
+				$(".backBtn").click(function() {
+					CyclePage("iframePage");
+				});
+			});
+
+
+			// Cycle to a new page.
+			function CyclePage(id) {
+				var index = $("#mainContainer").find("#" + id).index();
+				$("#mainContainer").cycle(index);
+			}
+			
+			
+			// Occures when document is ready.
+			$(document).ready(function()
+			{
+				// Listen when the device is ready to go.
+				document.addEventListener('deviceready', onDeviceReady, true);
+				
+					/*if (/iPhone|iPod|iPad/.test(navigator.userAgent))
+					{
+						$('iframe').wrap(function(){
+							var $this = $(this);
+							return $('<div />').css({
+								width: $this.attr('width'),
+								height: "5000px",
+								overflow: 'scroll',
+								'-webkit-overflow-scrolling': 'touch'
+							});
+						});
+					}*/
+			});
+			
+			function onDeviceReady()
+			{	
+				screen.lockOrientation('portrait');
+				setTimeout(FixIframeSize, 500);
+				// FIX iPhones SHITTY STATUS!!!
+				navigator.splashscreen.hide(); //Hides the splash screen for your app.
+				StatusBar.overlaysWebView(false); //Turns off web view overlay.
+				
+			}
+			
+			var a = false;
+			$(document).on('webkitfullscreenchange', function(e) { 
+				//alert(document.webkitIsFullScreen);
+				
+				if (a)
+				{
+					screen.lockOrientation('portrait');
+				}
+				else
+				{
+					screen.lockOrientation('landscape');
+				}
+			
+				a = !a;
+				
+				/*if(!document.webkitIsFullScreen) {
+					alert("out of full");
+					var so = cordova.plugins.screenorientation;
+					so.setOrientation(so.Orientation.PORTRAIT);
+				}
+				else
+				{
+					alert("fullscreen");
+					var so = cordova.plugins.screenorientation;
+					so.setOrientation(so.Orientation.PORTRAIT);
+				}*/
+			});
+			
+			
+				
+			
+				
+		</script>
+
+		<style>
+			html, body
+			{
+				height:100%;
+			}
+		
+			body
+			{
+				direction:ltr;
+				text-align:center;
+			}
+			
+			#mainContainer
+			{
+				height:100%;
+			}
+		
+			.app_page {
+				width: 100%;
+				height: 100%;
+			}	
+
+			 .appButton {
+				 width: 90%;
+				 margin: 0 auto;
+				 background-color:rgb(238,91,39);
+			 }
+
+			#aboutPage {
+				height: 100%;
+			}
+			
+			#aboutPage .text
+			{
+				text-align:left;
+				margin:0 15px;
+			}
+
+			#iframePage .iframe_container {
+				width:100%;
+				height:100%;
+				overflow-y: scroll !important; /* has to be scroll, not auto */
+				-webkit-overflow-scrolling: touch !important;
+			}
+			
+			#iframePage .iframe_container iframe
+			{
+				width:100%;
+				height:100%;
+				border:0;
+			}
+			
+			
+			.ui-page
+			{
+				height:100%;
+			}
+		</style>
+		
+		<script>
+			$().ready(function() {
+				FixIframeSize();
+			});
+			
+			function FixIframeSize()
+			{
+				$('.iframe_container').height($(window).height() - 70);
+			}
+		</script>
+	</head>
+	<body>
+		<div id="mainContainer">			
+			<!-- Iframe -->
+			<div id="iframePage" class="app_page">
+				<div class="appButton" id="aboutPageBtn"><a href="#" class="ui-btn ui-shadow ui-corner-all">About Us</a></div>
+				<div class="iframe_container">
+					<iframe id="iFrame" src="http://www.themindscapes.com/tools/wplogin/"></iframe>
+				</div>
+			</div>
+			
+			<!-- About -->
+			<div id="aboutPage" class="app_page">
+				<div class="backBtn appButton"><a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left">Back</a></div>
+				<h2>About Us</h2>
+				<div class="text">
+					Mindscapes offer a unique set of structured thinking tools that help boost the ability to generate impactful, insightful, innovative and creative ideas in advertising. These tools are built using common thinking patterns, drawn from award winning ideas from around the world.<br/><br/>
+					The app contains the full set of Mindscapes’ unique, creative, thinking tools for advertising. Each tool guides and assists advertising professionals in the creation of new ideas and campaigns, enabling you to exploit your inborn creative talent more effectively, thereby elevating and enriching your creative output. <br/><br/>
+					Each tool in this app contains:<br/>
+					<ul>
+						<li>A brief explanation about the tool</li>
+						<li>Step by step guidelines for applying the tool</li>
+						<li>Examples of selected case studies exemplifying the tool and the pattern of thinking it represents</li>
+						<li>Tips and suggestions for using the tool</li>
+					</ul>
+					<br/>
+					For any technical support, feedback or further questions about a Mindscapes Creativity Training Program please contact us at <a href="mailto:info@themindscapes.com">info@themindscapes.com</a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
